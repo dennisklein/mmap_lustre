@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     sum += mapped[i];
   }
 
-  printf("Sum: %llu", sum);
+  printf("Sum: %llu\n", sum);
   munmap(mapped, size);
   close(fd);
   return 0;
