@@ -1,5 +1,5 @@
-#include <assert.h>
 #include <fcntl.h>
+#include <stdio.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -8,6 +8,7 @@
 int main(int argc, char *argv[])
 {
   int fd, size, i;
+  unsigned long long int sum = 0;
   char* mapped;
 
   fd = open(argv[1], O_RDONLY|O_CLOEXEC);
@@ -19,8 +20,10 @@ int main(int argc, char *argv[])
 // mmap(0x7f7b96bc6000, 2011136, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_DENYWRITE, 3, 0x30f4000) = 0x7f7b96bc6000
 // mmap(0x7f7b96db1000, 169384, PROT_READ|PROT_WRITE, MAP_PRIVATE|MAP_FIXED|MAP_ANONYMOUS, -1, 0) = 0x7f7b96db1000
   for (i = 0; i < size; ++i) {
-    assert(0 == mapped[i]);
+    sum += mapped[i];
   }
+
+  printf("Sum: %llu", sum);
   munmap(mapped, size);
   close(fd);
   return 0;
